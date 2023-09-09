@@ -1,6 +1,6 @@
 import express from "express";
 import { uploads } from "../middleWare/multer.js";
-import { RequestedTrainer, TrainerData } from "../controllers/trainerController.js";
+import { RequestedTrainer, TrainerData, cancelRequiest,closeNotification } from "../controllers/trainerController.js";
 
 const trainerRouter = express.Router();
 
@@ -13,6 +13,8 @@ trainerRouter.post(
   TrainerData
 );
 trainerRouter.get('/requestedTrainer',RequestedTrainer)
+trainerRouter.post('/cancel_requiest',cancelRequiest)
+trainerRouter.post('/close',closeNotification)
 
 
 export default trainerRouter;

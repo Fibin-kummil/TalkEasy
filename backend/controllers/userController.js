@@ -16,7 +16,7 @@ export const signup = tryCatch(async (req, res) => {
     expiresIn: "1d",
   });
   console.log("token send", token);
-  res
+   res
     .cookie("token", token, {
       path: "/",
       expires: new Date(Date.now() + 1000 * 60 * 60), // 1 hour expiration
@@ -61,9 +61,10 @@ export const login = tryCatch(async (req, res) => {
 
 
 export const logout = tryCatch((req, res) => {
-  res.clearCookie("token");
+  // console.log(as);
+  res.clearCookie("token")
   return res.status(200).json({ message: "Succefully Logged out" });
-});
+})
 
 
 export const sendOtp = tryCatch((req, res) => {

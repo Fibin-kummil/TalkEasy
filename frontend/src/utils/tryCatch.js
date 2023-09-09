@@ -2,7 +2,7 @@ import { notify } from "./notification";
 
 const tryCatch = (controller) => async (data) => {
   try {
-    console.log('hi');
+    console.log('hi',data);
     const res = await controller(data);
     console.log(res);
     if (res) {

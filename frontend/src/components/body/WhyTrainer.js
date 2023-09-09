@@ -22,7 +22,7 @@ const items = [
     icon: <VideocamIcon />,
     title: "Other Benefits",
     contents: [
-      "1 on 1 Training for all ",
+      "1 to 1 Training for all ",
       "vedio conferance for better ",
       "more effecent lerning",
     ],
@@ -72,8 +72,8 @@ const WhyTrainer = () => {
         >
           {/* <Cards /> */}
           {items.map((item, index) => (
-        <Stack spacing={7}>
-        <Card key={index}>
+        <Stack spacing={7} key={index}>
+        <Card >
           <CardContent >
             <Stack spacing={4}>
               <IconButton style={cardStyle}>
@@ -101,8 +101,8 @@ const WhyTrainer = () => {
                 justifyContent: "center",
               }}
             >
-              {item.contents.map((e) => (
-                <Stack direction={"row"} spacing={2} key={e}>
+              {item.contents.map((e,index) => (
+                <Stack direction={"row"} spacing={2} key={index}>
                   <CheckCircleIcon
                     sx={{ color: "#75F94C", fontSize: "30px" }}
                   />

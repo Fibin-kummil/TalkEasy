@@ -9,6 +9,7 @@ import {
   Typography,
   Hidden,
   Button,
+  Badge,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -16,12 +17,13 @@ import logo from "../../assets/images/logo.png";
 import "./header.css";
 import { Menu, MenuItem } from "@mui/material/";
 import LogIn from "../LogIn/LogIn";
-import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../slices/UserSlice.js";
-import { notify } from "../../utils/notification";
 import { useNavigate } from "react-router";
-// import { useNavigate } from 'react-router-dom';
+import Tooltip from "@mui/material/Tooltip";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import { Close } from "@mui/icons-material";
+import { CloseN, Logout } from "../../utils/api";
 
 function Header() {
   const dispatch = useDispatch();
@@ -72,30 +74,39 @@ function Header() {
     setAnchorEl(event.currentTarget);
   };
 
-  axios.defaults.withCredentials = true;
-
-  const sendLogoutReq = async () => {
-    console.log("hdhdh", 1);
-    const res = await axios.post("http://localhost:5000/api/logout", null, {
-      withCredentials: true,
-    });
-    console.log("hdhdh", 2);
-    if (res.status === 200) {
-      return res;
-    }
-    return new Error("Unable to Logout");
-  };
-
   const handleLogout = () => {
-    sendLogoutReq()
-      .then(() => dispatch(logout()))
+    console.log("aaaaa")
+    Logout()
+      .then((res) => dispatch(logout(res.data)))
       .catch((err) => console.log(err));
-    notify({ message: "logged out", type: "success" });
-    // Handle logout error if needed
-  };
+  }
+
+  console.log(store);
+  let a = store?.isLoggedIn ? JSON.parse(localStorage.getItem("user_id")) : null;
+
+  console.log("111", a)
+const [notification, setNotification] = useState(a?.notification || [])
+  
+  const closeNotification = (index) => {
+  console.log("qwq=>",a?.email)
+    CloseN({index,email:a?.email})
+    setNotification(prev=>prev.filter((x,i)=>i!=index))
+  }
+
+
+  
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const [anchorE2, setAnchorE2] = React.useState(null);
+  const open = Boolean(anchorE2);
+  const handleClick = (event) => {
+    setAnchorE2(event.currentTarget);
+  };
+  const handleCloses = () => {
+    setAnchorE2(null);
   };
 
   return (
@@ -118,8 +129,8 @@ function Header() {
         <Stack direction="row" spacing={3} alignItems="center">
           {/* Hidden component for larger screens */}
           <Hidden mdDown>
-            {item.map((item) => (
-              <Typography sx={typographyStyle} key={item}>
+            {item.map((item, index) => (
+              <Typography sx={typographyStyle} key={index}>
                 {store.isLoggedIn ? (
                   <Button
                     style={{
@@ -157,7 +168,11 @@ function Header() {
                 }}
               >
                 {item.map((item) => (
-                  <Typography sx={typographyStyle} key={item} onClick={() => navigate(item.path)}>
+                  <Typography
+                    sx={typographyStyle}
+                    key={item}
+                    onClick={() => navigate(item.path)}
+                  >
                     {item.name}
                   </Typography>
                 ))}
@@ -165,17 +180,91 @@ function Header() {
             </Drawer>
           </Hidden>
 
+          <Box
+            sx={{ display: "flex", alignItems: "center", textAlign: "center" }}
+          >
+            <Tooltip title="Account settings">
+              <IconButton
+                onClick={handleClick}
+                size="small"
+                sx={{ ml: 2 }}
+                aria-controls={open ? "account-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}  
+              >
+                {store?.isLoggedIn ? (
+                  <Badge
+                    sx={{ width: 32, height: 32 }}
+                    color="success"
+                    badgeContent={notification.length}
+                  >
+                    <NotificationsIcon />
+                  </Badge>
+                ) : (
+                  ""
+                )}
+              </IconButton>
+            </Tooltip>
+          </Box>
+
+          <Menu
+            anchorEl={anchorE2}
+            id="account-menu"
+            open={open}
+            onClose={handleCloses}
+            onClick={handleCloses}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1,
+                },
+                "&:before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            {notification.length &&
+              notification.map((x, index) => (
+                <MenuItem key={index}>
+                  <Typography>{x}</Typography>
+                  <IconButton onClick={()=>closeNotification(index)} >
+                    <Close />
+                  </IconButton>
+                </MenuItem>
+              ))}
+          </Menu>
+
           <Toolbar>
-            <IconButton
+            <IconButton 
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleMenu}
+              
               // color="inherit"
             >
-              <AccountCircleIcon
-                sx={{ width: "auto", height: { xs: "28px", md: "38px" } }}
+              <AccountCircleIcon 
+                sx={{ width: "auto", height: { xs: "28px", md: "38px" }  }}
               />
             </IconButton>
             <Menu

@@ -46,13 +46,14 @@ const top100Films = [
 const TrainerData = () => {
   const navigate = useNavigate();
   let a = JSON.parse(localStorage.getItem("user_id"));
+  console.log('1',a)
   const [data, setdata] = useState({ language: [], ...a });
   const change = (event) => {
     setdata((prev) => ({
       ...prev,
       [event.target.name]: event.target.files[0],
     }));
-  };
+  }
 
   function submit() {
     console.log(data);

@@ -50,11 +50,11 @@ export default function SignUp() {
     console.log(enterOtp, showOtp);
     if (parseInt(enterOtp) === showOtp) {
       Register(inputs)
-        .then(() => dispatch(login()))
+        .then((res) => dispatch(login(res.data.user)))
         .then(() => navigate("/"))
         .catch((err) => console.log(err.message));
     }
-  }, [enterOtp]);
+  }, [enterOtp])
 
   const formik = useFormik({
     initialValues: {

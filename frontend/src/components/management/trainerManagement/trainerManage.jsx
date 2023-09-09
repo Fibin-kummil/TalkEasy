@@ -12,11 +12,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router";
-import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
+
 // import Card from '@mui/material/Card';
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
 // import Grid from '@mui/material/Grid';
 import List from "@mui/material/List";
@@ -28,17 +26,15 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-import { RequestedTrainer } from "../../../utils/api";
-import ExpandMore from "@mui/icons-material/ExpandMore";
+import { Disagree, RequestedTrainer } from "../../../utils/api";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { login } from "../../../slices/UserSlice";
 
-const cardStyle = {
-  width: "100%",
-  height: "auto",
-  justifyContent: "space-evenly",
-  color: "#CC3366",
-  fontSize: "4vw",
-  paddingTop: "2vw",
-};
+
+
+
+
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -53,8 +49,23 @@ function union(a, b) {
 }
 
 const TrainerManage = () => {
-  // const navigate = useNavigate();
-  const [open, setOpen] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [open, setOpen] = useState(null)
+  const [refresh, setrefresh] = useState(false)
+
+
+  const cancel =() =>{
+    Disagree(open)
+    .then(() => dispatch(login()))
+    .then(() => navigate("/trainerManage"))
+    setrefresh(prev=>!prev)
+    setOpen(false)
+  }
+
+
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -63,7 +74,8 @@ const TrainerManage = () => {
     const res = RequestedTrainer().then((res) => setLeft(res.data.data));
     console.log("a", left);
     // setLeft(res.data)
-  }, []);
+    console.log(refresh);
+  }, [refresh]);
 
   const [checked, setChecked] = React.useState([]);
   const [left, setLeft] = React.useState([0, 1, 2, 3]);
@@ -165,54 +177,58 @@ const TrainerManage = () => {
                   view
                 </Button>
                 {/* <Button onClick={handleOpen}>Open modal</Button> */}
-                
               </ListItem>
             </ListItem>
           );
         })}
       </List>
-                <Dialog
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="alert-dialog-title"
-                  aria-describedby="alert-dialog-description"
-                >
-                  <DialogTitle id="alert-dialog-title"></DialogTitle>
-                  <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                      <Typography variant="h6" color="primary">
-                        Details
-                      </Typography>
-                      Name: {open?.name} <br />
-                      Email: {open?.email} <br />
-                      Phone: {open?.phone}
-                      {console.log("l",open)}
-                      <Typography variant="h6" color="primary">
-                        Certicates
-                      </Typography>
-                      {open?.certificate?.length && (
-                        <>
-                        <Stack spacing={2} direction="row" >
-                          <img
-                            src={`http://localhost:5000/uploads/${open?.certificate[0]}`}
-                            alt="cert"
-                          />
-                          <img
-                            src={`http://localhost:5000/uploads/${open?.certificate[1]}`}
-                            alt="cert"
-                          />
-                          </Stack>
-                        </>
-                      )}
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={handleClose} autoFocus>
-                      Agree
-                    </Button>
-                  </DialogActions>
-                </Dialog>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title"></DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <Typography variant="h6" color="primary">
+              Details
+            </Typography>
+            Name: {open?.name} <br />
+            Email: {open?.email} <br />
+            Phone: {open?.phone}
+            
+            <Typography variant="h6" color="primary">
+              Certificates
+            </Typography>
+            {open?.certificate?.length && (
+              <>
+                <Stack spacing={2} direction="row">
+                  <img
+                    src={`http://localhost:5000/uploads/${open?.certificate[0]}`}
+                    alt="cert"
+                  />
+                  <img
+                    src={`http://localhost:5000/uploads/${open?.certificate[1]}`}
+                    alt="cert"
+                  />
+                </Stack>
+              </>
+            )}
+            <Typography variant="h6" color="primary">
+              Languages 
+            </Typography>
+            {open?.language?.join(', ')}
+
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={cancel}>Disagree</Button>
+          <Button onClick={handleClose} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
   return (

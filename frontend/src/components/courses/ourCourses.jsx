@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../header/header'
 import coursesImage from "../../assets/images/coursesImage.jpg"
-import { Paper, Typography } from '@mui/material'
+import { Grid, Paper, Typography } from '@mui/material'
 import Courses from '../body/courses'
 import WhyTrainer from '../body/WhyTrainer'
 import Footer from '../footer/Footer'
@@ -9,11 +9,14 @@ import Footer from '../footer/Footer'
 const OurCourses = () => {
   return (
 <>
-  <Header />
+  
   <div className="image-container" style={{ position: "relative" }}>
+    <Grid >
     <img src={coursesImage} alt="coursesP" className="image-darken" />
-    <h1
+    <Typography variant='h1'
+        fontSize={{xs:"40px",sm:"65px",md:"90px", lg:"110px"}}
       style={{
+        
         position: "absolute",
         top: "50%", // Adjust as needed to vertically center the text
         left: "50%", // Adjust as needed to horizontally center the text
@@ -21,16 +24,14 @@ const OurCourses = () => {
         color: "white", // Text color
         background: "rgba(0, 0, 0, 0)", // Background color for text
         padding: "10px", // Adjust as needed for spacing
-        fontSize:"90px"
       }}
     >
-      Learn To Speak <br/> Your Dream 
+      Learn To Speak  Your Dream 
        Language 
-    </h1>
+    </Typography>
+    </Grid>
   </div>
-  <Courses/>
-  <WhyTrainer/>
-  <Footer/>
+  
 </>
   )
 }

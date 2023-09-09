@@ -38,6 +38,9 @@ const userSchema = new Schema({
     },
     block:{
       type:Boolean
+    },
+    notification:{
+      type:Array
     }
 })
 // Encrypt password using bcrypt
