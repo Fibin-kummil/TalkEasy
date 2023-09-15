@@ -6,6 +6,7 @@ import cors from "cors"
 import connect from './config/dbConnect.js'
 import userRouter from './routes/userRoutes.js'
 import trainerRouter from './routes/trainerRoutes.js'
+import roomRouter from './routes/roomRouter.js'
 
 
 // dotenv.config()
@@ -19,6 +20,7 @@ app.use(express.static("./public"))
 app.use(cors({credentials:true,origin:"http://localhost:3000"}))
 app.use("/api",userRouter)
 app.use("/api/trainer",trainerRouter)
+app.use("/api/Room",roomRouter)
 
 
 const port = process.env.PORT || 6000

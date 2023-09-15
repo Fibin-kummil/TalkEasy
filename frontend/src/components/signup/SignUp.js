@@ -38,13 +38,13 @@ export default function SignUp() {
       client_id:
         "494404285312-vcar3kfe9g0nfc9q1gl9ktddm00p0hjj.apps.googleusercontent.com",
       callback: handleCallbackResponse,
-    });
+    })
 
     google.accounts.id.renderButton(document.getElementById("signInDiv"), {
       theme: "outline",
       size: "large",
     });
-  }, []);
+  }, [])
 
   useEffect(() => {
     console.log(enterOtp, showOtp);

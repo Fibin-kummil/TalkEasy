@@ -8,6 +8,8 @@ import TrainerJoin from './screens/trainerJoin'
 import TranerManage from './screens/tranerManage'
 import CoursesPage from './screens/coursesPage'
 import Contact from './components/contact/contact'
+import RoomP from './screens/roomP'
+import Video from './components/rooms/vedioCall'
 const Router = () => {
   return (
     <>
@@ -20,7 +22,8 @@ const Router = () => {
       <Route path="/trainerManage" element={<TranerManage />} />
       <Route path="/courses" element={<CoursesPage/>} />
       <Route path="/contact" element={<Contact/>} />
-      
+      <Route path="/rooms" element={<RoomP/>} />
+      <Route path='/joinMeeting' element={<Video/>}/>
       </Routes>
     </>
   )

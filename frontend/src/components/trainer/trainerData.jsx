@@ -45,7 +45,7 @@ const top100Films = [
 
 const TrainerData = () => {
   const navigate = useNavigate();
-  let a = JSON.parse(localStorage.getItem("user_id"));
+  let a = JSON.parse(localStorage.getItem("store"))?.user?.userData;
   console.log('1',a)
   const [data, setdata] = useState({ language: [], ...a });
   const change = (event) => {

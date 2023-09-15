@@ -77,7 +77,10 @@ function Header() {
   const handleLogout = () => {
     console.log("aaaaa")
     Logout()
-      .then((res) => dispatch(logout(res.data)))
+      .then((res) => {
+        dispatch(logout(res.data))
+        navigate('/')
+      })
       .catch((err) => console.log(err));
   }
 

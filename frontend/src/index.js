@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
-import store from "./slices/Store";
+import {store} from "./slices/Store";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "./theme"; // this is for coustamise color (i rap Router in this in ThemeProvider)

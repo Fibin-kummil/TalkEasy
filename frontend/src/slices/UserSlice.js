@@ -9,8 +9,7 @@ const userSlice = createSlice({
       state.isLoggedIn = true
       sessionStorage.setItem('userLoggedIn','true')
       state.userData = action.payload
-      localStorage.setItem("user_id",JSON.stringify(action.payload))
-      console.log(action.payload+"cc");
+      // localStorage.setItem("user_id",JSON.stringify(action.payload))
       
     },
     logout: (state) =>{
