@@ -41,6 +41,12 @@ const userSchema = new Schema({
     },
     notification:{
       type:Array
+    },
+    nativeLanguage:{
+      type:String,
+    },
+    lernningLanguage:{
+      type:String,
     }
 })
 // Encrypt password using bcrypt

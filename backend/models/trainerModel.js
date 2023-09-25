@@ -43,6 +43,10 @@ const trainerSchema = new Schema({
     type:Array,
     required:true
   },
+  role:{
+    type:String,
+    default:"trainer",
+  },
 })
 
 export default mongoose.model("Trainer",trainerSchema)

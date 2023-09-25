@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
@@ -18,7 +18,7 @@ import "./header.css";
 import { Menu, MenuItem } from "@mui/material/";
 import LogIn from "../LogIn/LogIn";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../slices/UserSlice.js";
+import { logout, userData } from "../../slices/UserSlice.js";
 import { useNavigate } from "react-router";
 import Tooltip from "@mui/material/Tooltip";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -75,29 +75,36 @@ function Header() {
   };
 
   const handleLogout = () => {
-    console.log("aaaaa")
+    console.log("aaaaa");
     Logout()
       .then((res) => {
-        dispatch(logout(res.data))
-        navigate('/')
+        dispatch(logout(res.data));
+        navigate("/");
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   console.log(store);
-  let a = store?.isLoggedIn ? JSON.parse(localStorage.getItem("user_id")) : null;
+  let a = store?.isLoggedIn ? JSON.parse(localStorage.getItem("store")) : null;
 
-  console.log("111", a)
-const [notification, setNotification] = useState(a?.notification || [])
-  
+  console.log("111", a);
+  const [notification, setNotification] = useState(
+    a?.user?.userData?.notification || []
+  );
+  useEffect(() => {
+    dispatch(
+      userData({
+        ...a?.user?.userData,
+        notification: notification,
+      })
+    );
+  }, [notification]);
+
   const closeNotification = (index) => {
-  console.log("qwq=>",a?.email)
-    CloseN({index,email:a?.email})
-    setNotification(prev=>prev.filter((x,i)=>i!=index))
-  }
-
-
-  
+    console.log("qwq=>", a?.user?.userData?.email);
+    CloseN({ index, email: a?.user?.userData?.email });
+    setNotification((prev) => prev.filter((x, i) => i != index));
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -122,14 +129,14 @@ const [notification, setNotification] = useState(a?.notification || [])
         }}
       >
         <IconButton
-          sx={{ width: "auto", height: "40px" }}
+          sx={{ width: "auto", height: { xs: "30px", sm: "35px", md: "35px" } }}
           edge="start"
           color="inherit"
           aria-label="logo"
         >
           <img src={logo} alt="Logo" style={{ maxHeight: "700%" }} />
         </IconButton>
-        <Stack direction="row" spacing={3} alignItems="center">
+        <Stack direction="row" alignItems="center">
           {/* Hidden component for larger screens */}
           <Hidden mdDown>
             {item.map((item, index) => (
@@ -152,17 +159,55 @@ const [notification, setNotification] = useState(a?.notification || [])
             ))}
           </Hidden>
 
+          <Box
+            sx={{ display: "flex", alignItems: "center", textAlign: "center" }}
+          >
+            <Tooltip title="Account settings">
+              <IconButton
+                onClick={handleClick}
+                size="small"
+                sx={{ ml: 2 }}
+                aria-controls={open ? "account-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+              >
+                {store?.isLoggedIn ? (
+                  <Badge
+                    sx={{ width: 32, height: 25 }}
+                    color="success"
+                    badgeContent={notification.length}
+                  >
+                    <NotificationsIcon />
+                  </Badge>
+                ) : (
+                  ""
+                )}
+              </IconButton>
+            </Tooltip>
+          </Box>
+
           <Hidden mdUp>
-            <IconButton size="large" onClick={handleDrawerOpen}>
-              <MenuIcon />
-            </IconButton>
+            <Box p={"0px"}>
+              <IconButton size="large" onClick={handleDrawerOpen}>
+                <MenuIcon />
+              </IconButton>
+            </Box>
             <Drawer
+              PaperProps={{
+                sx: {
+                  height: "auto",
+                  backgroundColor: "transparent",
+                },
+              }}
+              color="primary"
               anchor="right"
               open={isDrawerOpen}
               onClose={handleDrawerClose}
             >
               <Box
                 sx={{
+                  backgroundColor: "white",
+                  marginRight: "10px",
                   width: "200px",
                   mt: "10px",
                   display: "flex",
@@ -170,6 +215,69 @@ const [notification, setNotification] = useState(a?.notification || [])
                   alignItems: "center",
                 }}
               >
+                <Hidden mdUp>
+                  <Toolbar>
+                    <IconButton
+                      size="large"
+                      aria-label="account of current user"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      onClick={handleMenu}
+
+                      // color="inherit"
+                    >
+                      <AccountCircleIcon
+                        sx={{
+                          width: "auto",
+                          height: { xs: "28px", md: "38px" },
+                        }}
+                      />
+                    </IconButton>
+                    <Menu
+                      id="menu-appbar"
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      open={Boolean(anchorEl)}
+                      onClick={handleClose}
+                    >
+                      {store?.isLoggedIn ? (
+                        <MenuItem>
+                          <Button
+                            style={ButtonStyle}
+                            onClick={() => {
+                              navigate("/user_profile");
+                            }}
+                          >
+                            Profile
+                          </Button>
+                        </MenuItem>
+                      ) : (
+                        <LogIn title="profile" />
+                      )}
+
+                      {store?.isLoggedIn ? (
+                        <MenuItem>
+                          <Button style={ButtonStyle} onClick={handleLogout}>
+                            Logout
+                          </Button>
+                        </MenuItem>
+                      ) : (
+                        <MenuItem>
+                          <LogIn />
+                        </MenuItem>
+                      )}
+                    </Menu>
+                  </Toolbar>
+                </Hidden>
+
                 {item.map((item) => (
                   <Typography
                     sx={typographyStyle}
@@ -182,33 +290,6 @@ const [notification, setNotification] = useState(a?.notification || [])
               </Box>
             </Drawer>
           </Hidden>
-
-          <Box
-            sx={{ display: "flex", alignItems: "center", textAlign: "center" }}
-          >
-            <Tooltip title="Account settings">
-              <IconButton
-                onClick={handleClick}
-                size="small"
-                sx={{ ml: 2 }}
-                aria-controls={open ? "account-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}  
-              >
-                {store?.isLoggedIn ? (
-                  <Badge
-                    sx={{ width: 32, height: 32 }}
-                    color="success"
-                    badgeContent={notification.length}
-                  >
-                    <NotificationsIcon />
-                  </Badge>
-                ) : (
-                  ""
-                )}
-              </IconButton>
-            </Tooltip>
-          </Box>
 
           <Menu
             anchorEl={anchorE2}
@@ -245,62 +326,77 @@ const [notification, setNotification] = useState(a?.notification || [])
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
+            {console.log("notef", notification)}
+
             {notification.length &&
               notification.map((x, index) => (
                 <MenuItem key={index}>
                   <Typography>{x}</Typography>
-                  <IconButton onClick={()=>closeNotification(index)} >
+                  <IconButton onClick={() => closeNotification(index)}>
                     <Close />
                   </IconButton>
                 </MenuItem>
               ))}
           </Menu>
 
-          <Toolbar>
-            <IconButton 
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              
-              // color="inherit"
-            >
-              <AccountCircleIcon 
-                sx={{ width: "auto", height: { xs: "28px", md: "38px" }  }}
-              />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorEl)}
-              onClick={handleClose}
-            >
-              <MenuItem>
-                <Button style={ButtonStyle}>Profile</Button>
-              </MenuItem>
-              {store?.isLoggedIn ? (
-                <MenuItem>
-                  <Button style={ButtonStyle} onClick={handleLogout}>
-                    Logout
-                  </Button>
-                </MenuItem>
-              ) : (
-                <MenuItem>
-                  <LogIn />
-                </MenuItem>
-              )}
-            </Menu>
-          </Toolbar>
+          <Hidden mdDown>
+            <Toolbar>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+
+                // color="inherit"
+              >
+                <AccountCircleIcon
+                  sx={{ width: "auto", height: { xs: "28px", md: "38px" } }}
+                />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClick={handleClose}
+              >
+                {store?.isLoggedIn ? (
+                  <MenuItem>
+                    <Button
+                      style={ButtonStyle}
+                      onClick={() => {
+                        navigate("/user_profile");
+                      }}
+                    >
+                      Profile
+                    </Button>
+                  </MenuItem>
+                ) : (
+                  <LogIn title="profile" />
+                )}
+                {store?.isLoggedIn ? (
+                  <MenuItem>
+                    <Button style={ButtonStyle} onClick={handleLogout}>
+                      Logout
+                    </Button>
+                  </MenuItem>
+                ) : (
+                  <MenuItem>
+                    <LogIn />
+                  </MenuItem>
+                )}
+              </Menu>
+            </Toolbar>
+          </Hidden>
         </Stack>
       </Toolbar>
     </AppBar>

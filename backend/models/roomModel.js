@@ -12,9 +12,8 @@ const roomSchema = new Schema({
     type: String,
     required: true,
   },
-  members: {
-    type: Array,
-  },
+  members: [{ type: Schema.Types.ObjectId, ref: "User" }],  // take the data from the user schema giveing the ref like this (populate for that)
+
   maxPeople: {
     type: Number,
     required: true,

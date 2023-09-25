@@ -46,7 +46,7 @@ const top100Films = [
 const TrainerData = () => {
   const navigate = useNavigate();
   let a = JSON.parse(localStorage.getItem("store"))?.user?.userData;
-  console.log('1',a)
+  // console.log('1',a)
   const [data, setdata] = useState({ language: [], ...a });
   const change = (event) => {
     setdata((prev) => ({
@@ -74,7 +74,7 @@ const TrainerData = () => {
   const fileInputRef2 = React.useRef(null);
 
   const [value, setValue] = React.useState(0);
-  const handleChangeTabs = (event, newValue) => {
+  const handleChangeTabs = ( event,newValue) => {
     setValue(newValue);
   };
 

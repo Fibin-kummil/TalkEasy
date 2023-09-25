@@ -63,13 +63,13 @@ export default function App() {
           // start the call
           zp.joinRoom({
             container: element,
-            // showPreJoinView: false,
-            // showRemoveUserButton:roomID===userID,
-            // turnOnCameraWhenJoining:false,
-            // turnOnMicrophoneWhenJoining:false,
-            // branding: {
-            //   logoURL: logo 
-            // },
+            showPreJoinView: false,
+            showRemoveUserButton:roomID===userID,
+            turnOnCameraWhenJoining:false,
+            turnOnMicrophoneWhenJoining:false,
+            branding: {
+              logoURL: logo 
+            },
             onJoinRoom: () => {ActiveRoom({userID,roomID,state: true})},
             onLeaveRoom: () => {
               ActiveRoom({userID,roomID, state:false})

@@ -10,39 +10,48 @@ import {
   Divider,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { getRooms } from "../../utils/api";
+import { deleteMyRoom, getRooms } from "../../utils/api";
 import { useNavigate } from "react-router";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const MyGroup = ({ data, setdisable }) => {
+const MyGroup = ({setData, data, setdisable  }) => {
   const [roomData, setRoomData] = useState([]);
-  const [mygrp, setMygrp] = useState([{}]);
+  const [mygrp, setMygrp] = useState({})
   const navigate = useNavigate();
   const room = JSON.parse(localStorage.getItem("store"))?.user?.userData;
   console.log("store", room);
 
   useEffect(() => {
     getRooms().then((res) => {
-      setMygrp(res?.data?.data.filter((user) => user.admin == room._id));
+      const grp = res?.data?.data.filter((user) => user.admin == room._id) //this will be a array
+      grp.length && setMygrp({...grp[0]}); // spread this to make a object
       setRoomData(res?.data?.data.filter((user) => user.admin != room._id));
-      // console.log("12",res.data.data[0].isActive);//jjjjjj
-    });
+      grp.length && setdisable(true); //this is for if there is a admin room to make create button disable 
+        });
   }, []);
 
-  useEffect(() => {
-    mygrp[0]?.admin && setdisable(true);
-  }, [mygrp])
+  console.log("roomdata",roomData);
+
 
   const deleteRoom = () =>{
-    
+    const myGrp_id = mygrp?.admin || data?.admin
+    deleteMyRoom({myGrp_id}).then((res)=>{
+      setdisable(false)
+      setMygrp({})
+      setData({
+        topic: "",
+        maxPeople: "",
+        language: "English",
+        Level: "",
+      })
+    })
   }
 
-  console.log("modifi", roomData[0]?.isActive);
 
   return (
     <>
       <Box pl={"80px"} pb={"30px"}>
-        {mygrp.length || data?.admin ? (
+        {mygrp?.admin || data?.admin ? (
           <>
             <Typography
               variant="h4"
@@ -67,20 +76,22 @@ const MyGroup = ({ data, setdisable }) => {
                   <DeleteIcon />
                 </Button>
                 </Grid>
+
                 <Typography variant="h6">
-                  Room Name:- {data?.topic ?? mygrp[0]?.topic}
+                  Room Name:- {data?.topic ?? mygrp?.topic}
                 </Typography>
                 <Typography>
-                  {data?.language ?? mygrp[0]?.language} (
-                  {data?.Level ?? mygrp[0]?.Level})
+                  {data?.language ?? mygrp?.language} (
+                  {data?.Level ?? mygrp?.Level})
                 </Typography>
-                {/* <Typography>{data?.level ?? mygrp[0]?.level}</Typography> */}
+                {/* <Typography>{data?.level ?? mygrp?.level}</Typography> */}
                 <Stack direction="row" spacing={4}>
+                  {/* {data.members>0?
                   <Avatar
                     sx={{ width: 56, height: 56 }}
                     {...stringAvatar("Kent Dodds")}
-                  ></Avatar>
-                  <Avatar
+                  ></Avatar>:""} */}
+                  {/* <Avatar
                     sx={{ width: 56, height: 56 }}
                     {...stringAvatar("D Dodds")}
                   ></Avatar>
@@ -91,7 +102,7 @@ const MyGroup = ({ data, setdisable }) => {
                   <Avatar
                     sx={{ width: 56, height: 56 }}
                     {...stringAvatar("M Kent ")}
-                  ></Avatar>
+                  ></Avatar> */}
                 </Stack>
 
                 <Grid p={"8px"} paddingLeft={"60px"}>
@@ -131,7 +142,7 @@ const MyGroup = ({ data, setdisable }) => {
           Join to Random calls
         </Typography>
         <Grid pt={"40px"}>
-          <>
+          
             {roomData.map((data) =>
               data.isActive ? (
                 <Card
@@ -152,22 +163,32 @@ const MyGroup = ({ data, setdisable }) => {
                       {data?.language} ({data?.Level})
                     </Typography>
                     <Stack direction="row" spacing={4}>
-                      <Avatar
+
+                    
+                    {data?.members?.map((member) => {
+                      console.log(member.name); // Log the member's name
+                      return (
+                        <Avatar
+                        key={member._id}
                         sx={{ width: 56, height: 56 }}
-                        {...stringAvatar("Kent Dodds")}
-                      ></Avatar>
-                      <Avatar
+                        {...stringAvatar(member.name)}
+                      >
+                      </Avatar>
+                      );
+                    })}
+
+                      {/* <Avatar
                         sx={{ width: 56, height: 56 }}
-                        {...stringAvatar("D Dodds")}
-                      ></Avatar>
-                      <Avatar
+                        {...stringAvatar("Dodds")}
+                      ></Avatar> */}
+                      {/* <Avatar
                         sx={{ width: 56, height: 56 }}
                         {...stringAvatar("M Kent ")}
                       ></Avatar>
                       <Avatar
                         sx={{ width: 56, height: 56 }}
-                        {...stringAvatar("M Kent ")}
-                      ></Avatar>
+                        {...stringAvatar("Kent ")}
+                      ></Avatar> */}
                     </Stack>
 
                     <Grid p={"30px"} paddingLeft={"60px"}>
@@ -188,7 +209,7 @@ const MyGroup = ({ data, setdisable }) => {
                 ""
               )
             )}
-          </>
+          
         </Grid>
       </Box>
     </>
@@ -218,10 +239,11 @@ function stringToColor(string) {
 }
 
 function stringAvatar(name) {
+  console.log(name)
   return {
     sx: {
       bgcolor: stringToColor(name),
     },
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    children: `${name.split('')[0]}`,
   };
 }

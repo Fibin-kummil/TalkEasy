@@ -3,6 +3,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import SbscribePaper from "../../assets/images/Subscribe.jpg";
 import { PaddingRounded } from "@mui/icons-material";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 const Subscribe = () => {
   const theme = useTheme();
@@ -10,6 +12,11 @@ const Subscribe = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
   const isExtraSmallScreen = useMediaQuery(theme.breakpoints.up("xs"));
 
+  const navigate = useNavigate()
+  const store = useSelector((data) => data?.user);
+  const onAction = () =>{
+    {store?.isLoggedIn ? ( navigate("/subscription") ) : (navigate("/")) }
+  }
 
   return (
     <>
@@ -21,13 +28,14 @@ const Subscribe = () => {
       }}
     >
       <CardMedia
+        
         component="img"
         height="170"
         image={SbscribePaper}
         alt="green iguana"
         sx={{
-          width: "90%",
-          padding: { md: 7, xs: 5, sm: 5, lg: 9 },
+          width: "100%",
+          padding:"auto",
           filter: "brightness(0.5)",
         }}
       />
@@ -95,6 +103,7 @@ const Subscribe = () => {
             fontSize: isMediumScreen ? "20px" : "16px",
             borderRadius: "10px",
           }}
+          onClick={onAction}
         >
           SUBSCRIBE
         </Button>

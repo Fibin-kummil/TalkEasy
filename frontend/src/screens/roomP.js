@@ -8,12 +8,11 @@ const RoomP = () => {
   const [data, setdata] = useState({})
   const [disable, setdisable] = useState(false)
 
-
   return (
     <>
     <Header/>
     <Rooms setdata={setdata} disable={disable} setdisable={setdisable}/>
-    <MyGroup data={data} setdisable={setdisable}/>
+    <MyGroup data={data} setdisable={setdisable} setData={setdata}/>
     <Footer/>
     </>
   )

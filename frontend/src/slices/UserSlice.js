@@ -12,6 +12,9 @@ const userSlice = createSlice({
       // localStorage.setItem("user_id",JSON.stringify(action.payload))
       
     },
+    userData: (state,action)=>{
+      state.userData = action.payload
+    },
     logout: (state) =>{
       state.isLoggedIn = false
       sessionStorage.setItem('userLoggedIn','false')
@@ -19,7 +22,7 @@ const userSlice = createSlice({
   }
 })
 
-export const {login, logout} = userSlice.actions
+export const {login, logout,userData} = userSlice.actions
 export default userSlice.reducer
 
 

@@ -26,7 +26,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-import { Disagree, RequestedTrainer } from "../../../utils/api";
+import { ApproveTrainer, Disagree, RequestedTrainer } from "../../../utils/api";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { login } from "../../../slices/UserSlice";
@@ -64,6 +64,14 @@ const TrainerManage = () => {
     setOpen(false)
   }
 
+  const agree = () =>{
+    ApproveTrainer(open)
+    .then(() => dispatch(login()))
+    .then(() => navigate("/trainerManage"))
+    setrefresh(prev=>!prev)
+    setOpen(false)
+  }
+
 
 
   const handleClose = () => {
@@ -75,11 +83,11 @@ const TrainerManage = () => {
     console.log("a", left);
     // setLeft(res.data)
     console.log(refresh);
-  }, [refresh]);
+  }, [refresh])
 
-  const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState([0, 1, 2, 3]);
-  const [right, setRight] = React.useState([4, 5, 6, 7]);
+  const [checked, setChecked] = useState([]);
+  const [left, setLeft] = useState([0, 1, 2, 3]);
+  const [right, setRight] = useState([4, 5, 6, 7]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -224,7 +232,7 @@ const TrainerManage = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={cancel}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={agree} autoFocus>
             Agree
           </Button>
         </DialogActions>

@@ -91,9 +91,13 @@ const Rooms = ({ setdata,disable,setdisable }) => {
         ...formData,
         admin: userData._id,
         username:userData.name
-      });
+      })
       console.log("Form data submitted:", formData);
-      setdata(formData) //pass to parent 
+      setdata({
+        ...formData,
+        admin: userData._id,
+        username:userData.name
+      }) //pass to parent 
       handleClose();
       setFormData(inirialState)
       setdisable(true) // to diable the create room button
@@ -101,7 +105,7 @@ const Rooms = ({ setdata,disable,setdisable }) => {
     } else {
       alert("Please fill out all required fields.");
     }
-  };
+  }
 
   return (
     <>

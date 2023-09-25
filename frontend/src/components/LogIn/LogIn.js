@@ -17,7 +17,14 @@ import Grid from "@mui/material/Grid";
 // import Typography from '@mui/material/Typography';
 import Container from "@mui/material/Container";
 // import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Stack } from "@mui/material";
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  Stack,
+} from "@mui/material";
 // import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -25,7 +32,7 @@ import { useNavigate } from "react-router-dom";
 // import { toast } from "react-toastify";
 import { login } from "../../slices/UserSlice";
 // import { notify } from "../../utils/notification";
-import { Login } from "../../utils/api";
+import { Login, TrainerLogin } from "../../utils/api";
 
 const style = {
   position: "absolute",
@@ -37,18 +44,24 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-}
+};
 
 const LogIn = (props) => {
   const { title = "LOGIN" } = props;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("user");
+
+  const handleRadio = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const ButtonStyle = {
     fontFamily: "Poppins",
     fontSize: { xs: "18px", md: "24px" },
     color: "inherit",
-  }
+  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -71,7 +84,7 @@ const LogIn = (props) => {
           dispatch(login(res.data.user)); // Dispatch the action for admin
           navigate("/adminHome");
         } else {
-          console.log(res.data.user,"res");
+          console.log(res.data.user, "res");
           dispatch(login(res.data.user)); // Dispatch the action for regular user
           navigate("/");
         }
@@ -80,7 +93,22 @@ const LogIn = (props) => {
         // Handle error here
         console.error("Login error:", error);
       });
+    };
+    
+    const Submit = (e) =>{
+    e.preventDefault();
+    TrainerLogin({
+      email: inputs.email,
+      password: inputs.password,
+    })
+      .then((res) => res?.data && dispatch(login()))
+      .then(() => navigate("/trainerHome"))
+      .catch((error) => {
+        console.error("Login error:", error);
+      })   
   }
+
+
 
   const handleChange = (e) => {
     setInputs((prev) => ({
@@ -110,16 +138,55 @@ const LogIn = (props) => {
                 alignItems: "center",
               }}
             >
-              <Typography
-                component="h1"
-                variant="h4"
-                sx={{ fontWeight: "bold" }}
+              <Stack
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  pb: "30px",
+                }}
               >
-                WELCOME
-              </Typography>
-              <Typography variant="h9" sx={{ fontSize: "15px" }}>
-                Login by entering the information below
-              </Typography>
+                <Typography
+                  component="h1"
+                  variant="h4"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  WELCOME
+                </Typography>
+                <Typography variant="h9" sx={{ fontSize: "15px", pb: "30px" }}>
+                  Login by entering the information below
+                </Typography>
+              </Stack>
+              <FormControl>
+                <FormLabel
+                  sx={{ display: "flex", justifyContent: "center" }}
+                  id="demo-row-radio-buttons-group-label"
+                >
+                  Select User/Trainer
+                </FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  // value={value}
+                  onChange={handleRadio}
+                  
+                  >
+                  <FormControlLabel
+                    value="user"
+                    control={<Radio checked={selectedValue === 'user'} />}
+                    label="User"
+                    
+                    
+                    
+                  />
+                  <FormControlLabel
+                    value="trainer"
+                    control={<Radio checked={selectedValue === 'trainer'}/>}
+                    label="Trainer"
+                  />
+                </RadioGroup>
+              </FormControl>
               <Box component="form" noValidate sx={{ mt: 1 }}>
                 <TextField
                   margin="normal"
@@ -154,14 +221,25 @@ const LogIn = (props) => {
                     </Link>
                   </Grid>
                 </Stack>
+                {selectedValue === 'user'?
                 <Button
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2, backgroundColor: "#CC3366" }}
                   onClick={handleSubmit}
                 >
-                  LOG In
+                  user LOG In
                 </Button>
+                :
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2, backgroundColor: "#CC3366" }}
+                  onClick={Submit}
+                >
+                  Trainer LOG In
+                </Button>
+                 }
                 <Grid
                   pt={2}
                   sx={{

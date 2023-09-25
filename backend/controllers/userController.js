@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
+import TrainerModel from "../models/trainerModel.js";
 import fast2sms from "fast-two-sms";
 import { tryCatch } from "../utils/tryCatch.js";
 import "dotenv/config";
@@ -7,7 +8,8 @@ import "dotenv/config";
 export const signup = tryCatch(async (req, res) => {
   const { name, email, password, phone } = req.body;
   let existingUser = await User.findOne({ email: email });
-  if (existingUser) {
+  let existingTrainer = await TrainerModel.findOne({ email: email });
+  if (existingUser || existingTrainer ) {
     res.status(400).json({ message: "User already exist" });
   }
   const user = new User({ name, email, password, phone });
@@ -91,3 +93,23 @@ const sendMessage = function (mobile) {
     });
   return randomOTP;
 };
+
+
+export const profileUpdate = tryCatch(async(req,res)=>{
+    const {name,phone,email} = req.body
+  await User.updateOne({$set:{name:name,phone:phone,email:email}})
+  let update = await User.findOne({email:email})
+   console.log("update",update)
+   return res.status(200).json(update)
+})
+
+
+export const chooseLanguage = tryCatch(async(req,res)=>{
+  console.log(fff);
+  const {email,nativeLanguage,selectedLanguage} = req.body
+  data = await User.findOne({email:email})
+  console.log("hdhdh",data);
+})
+
+
+

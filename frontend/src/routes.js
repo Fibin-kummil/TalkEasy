@@ -10,11 +10,16 @@ import CoursesPage from './screens/coursesPage'
 import Contact from './components/contact/contact'
 import RoomP from './screens/roomP'
 import Video from './components/rooms/vedioCall'
+import TrainerHomeP from './screens/trainerHomeP'
+import UserProfile from './components/profile/userProfile'
+import Subscription from './components/subscription/subscription'
+import TrainerList from './components/trainerList/trainerList'
 const Router = () => {
   return (
     <>
       <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/trainerHome" element={<TrainerHomeP />} />
       <Route path="/adminHome" element={<AdminHome />} />
       <Route path="/signUp" element={<SignUp />} />
       <Route path="/LogIn" element={<LogIn />} />
@@ -24,6 +29,9 @@ const Router = () => {
       <Route path="/contact" element={<Contact/>} />
       <Route path="/rooms" element={<RoomP/>} />
       <Route path='/joinMeeting' element={<Video/>}/>
+      <Route path='/user_profile' element={<UserProfile/>}/>
+      <Route path='/subscription' element={<Subscription/>}/>
+      <Route path='/trainerList' element={<TrainerList/>}/>
       </Routes>
     </>
   )
