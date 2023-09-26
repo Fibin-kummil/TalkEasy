@@ -6,6 +6,7 @@ import {
   ShowTrainers,
   TrainerData,
   TrainerLogin,
+  TrainerLogout,
   cancelRequiest,
   closeNotification,
 } from "../controllers/trainerController.js";
@@ -26,5 +27,6 @@ trainerRouter.post("/cancel_requiest", cancelRequiest);
 trainerRouter.post("/approve_trainer", ApproveTrainer);
 trainerRouter.post("/close", closeNotification);
 trainerRouter.post("/trainer_login", TrainerLogin);
+trainerRouter.post("/logout", TrainerLogout);
 
 export default trainerRouter;

@@ -82,7 +82,7 @@ const TrainerData = () => {
     <>
       <Grid container>
         <Container sx={{ minHeight: "100vh" }}>
-          <Box sx={{ width: "100%", marginTop: "20px" }}>
+          <Box sx={{ width: "100%"}}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}
@@ -98,7 +98,7 @@ const TrainerData = () => {
               maxWidth: "1100px",
               width: "130%",
               margin: "auto",
-              marginTop: "50px",
+              // marginTop: "50px",
               padding: "20px",
               border: "1px solid #999",
             }}

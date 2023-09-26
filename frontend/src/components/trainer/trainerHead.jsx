@@ -9,10 +9,10 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Stack } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
+import { LogoutTrainer } from "../../utils/api";
 
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const TrainerHome = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -24,6 +24,10 @@ const TrainerHome = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const LogOut = () =>{
+    LogoutTrainer()
+  } 
 
   return (
     <AppBar position="static">
@@ -60,11 +64,14 @@ const TrainerHome = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              
+                <MenuItem  onClick={handleCloseUserMenu} >
+                  <Grid direction={"column"}>
+                  <Typography textAlign="center">Profile</Typography>
+                  <Typography textAlign="center" onClick={LogOut}>Logout</Typography>
+                  </Grid>
                 </MenuItem>
-              ))}
+              
             </Menu>
           </Box>
         </Toolbar>

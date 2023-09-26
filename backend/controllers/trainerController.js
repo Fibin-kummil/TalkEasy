@@ -116,7 +116,7 @@ export const closeNotification = tryCatch(async (req, res) => {
 })
 
 export const ShowTrainers = tryCatch(async(req,res) => {
- let showTrainer = await TemporaryModel.find()
+ let showTrainer = await TrainerModel.find()
  console.log("hhh",showTrainer);
  res
  .status(200)
@@ -124,5 +124,10 @@ export const ShowTrainers = tryCatch(async(req,res) => {
    message: "Avilable Trainers",
    data: showTrainer,
  })
-return;
+return ;
+})
+
+
+export const TrainerLogout = tryCatch(async(req,res)=>{
+  
 })

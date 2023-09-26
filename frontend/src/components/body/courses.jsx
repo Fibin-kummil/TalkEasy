@@ -137,20 +137,23 @@ function Courses() {
   let a = JSON.parse(localStorage.getItem("store"))?.user?.userData;
   let email = a.email
   console.log("gdgdg",email);
-
+  
+  console.log(data)
   const languagechoose = (e) =>{
+    console.log(123);
     e.preventDefault()
     storeChooseLanguage({
       nativeLanguage: data.nativeLanguage,
       selectedLanguage:data.selectLanguage,
-      email
+      // email:email
     })
     .then((res) => res?.data && dispatch(login()))
       .then(() => navigate("/subscription"))
       .catch((error) => {
         console.error("error:", error);
       })
-    // navigate("/subscription")
+      setOpen(false)
+    navigate("/subscription")
   }
 
   return (
@@ -212,18 +215,17 @@ function Courses() {
         ))}
       </Grid>
 
+    <form  onSubmit={languagechoose}>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Choose Language</DialogTitle>
         <DialogContent>
-         
-  <form  onSubmit={languagechoose}>
-        
+
         <Autocomplete
                     
                     id="tags-filled"
-                    value={data.nativeLanguage}
+                    
                     onChange={(e, value) =>
-                      setdata({ ...data, language: value })
+                      setdata({ ...data, nativeLanguage: value })
                     }
                     options={top100Films}
                     renderTags={(value, getTagProps) =>
@@ -242,16 +244,16 @@ function Courses() {
                         label="Select Your Native Language"
                         placeholder="Select Language"
                         sx={{width:"300px"}}
-                        // value={inputs.nativeLanguage}
+                       
                       />
                     )}
                   />
         <Autocomplete
                     
                     id="tags-filled"
-                    value={data.selectLanguage}
+                   
                     onChange={(e, value) =>
-                      setdata({ ...data, language: value })
+                      setdata({ ...data, selectLanguage: value })
                     }
                     options={top100Films}
                     renderTags={(value, getTagProps) =>
@@ -269,18 +271,18 @@ function Courses() {
                         variant="filled"
                         label="Select Language you want to learn"
                         placeholder="Select Language"
-                         // value={inputs.selectLanguage}
+                       
                       />
                     )}
                   />
-      </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           {/* <Button onClick={()=>{navigate("/subscription")}}>Subscribe</Button> */}
-          <Button type="submit">Subscribe</Button>
+          <Button onClick={languagechoose}>Subscribe</Button>
         </DialogActions>
       </Dialog>
+      </form> 
       
 
     </Grid>

@@ -23,6 +23,7 @@ export const Disagree = tryCatch((data) => Axios.post(`/trainer/cancel_requiest`
 export const ApproveTrainer = tryCatch((data) => Axios.post(`/trainer/approve_trainer`,data))
 export const CloseN = tryCatch((data) => Axios.post(`/trainer/close`,data))
 export const TrainerDatas = tryCatch((data) => Axios.post(`/trainer/trainerData`,data))
+export const LogoutTrainer= tryCatch((data) => Axios.post(`/trainer/logout`,data))
 
 export const RoomData = tryCatch((data) => Axios.post(`/Room/RoomData`,data))
 export const ActiveRoom = tryCatch((data) => Axios.post(`/Room/roomActive`,data))

@@ -105,10 +105,10 @@ export const profileUpdate = tryCatch(async(req,res)=>{
 
 
 export const chooseLanguage = tryCatch(async(req,res)=>{
-  console.log(fff);
-  const {email,nativeLanguage,selectedLanguage} = req.body
-  data = await User.findOne({email:email})
-  console.log("hdhdh",data);
+  const {nativeLanguage,selectedLanguage} = req.body
+
+  let data = await User.updateOne({$set:{nativeLanguage:nativeLanguage,lernningLanguage:selectedLanguage}})
+  console.log("data",data);
 })
 
 
