@@ -53,60 +53,60 @@ const management = [
 const AdminBody = () => {
   const navigate = useNavigate();
 
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  // const theme = useTheme();
+  // const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  // const handleDrawerOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  // const handleDrawerClose = () => {
+  //   setOpen(false);
+  // };
 
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
+  // const [state, setState] = React.useState({
+  //   top: false,
+  //   left: false,
+  //   bottom: false,
+  //   right: false,
+  // });
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
+  // const toggleDrawer = (anchor, open) => (event) => {
+  //   if (
+  //     event &&
+  //     event.type === "keydown" &&
+  //     (event.key === "Tab" || event.key === "Shift")
+  //   ) {
+  //     return;
+  //   }
 
-    setState({ ...state, [anchor]: open });
-  };
+  //   setState({ ...state, [anchor]: open });
+  // };
 
-  const list = (anchor) => (
-    <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
+  // const list = (anchor) => (
+  //   <Box
+  //     sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+  //     role="presentation"
+  //     onClick={toggleDrawer(anchor, false)}
+  //     onKeyDown={toggleDrawer(anchor, false)}
+  //   >
+  //     <List>
+  //       {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+  //         <ListItem key={text} disablePadding>
+  //           <ListItemButton>
+  //             <ListItemIcon>
+  //               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+  //             </ListItemIcon>
+  //             <ListItemText primary={text} />
+  //           </ListItemButton>
+  //         </ListItem>
+  //       ))}
+  //     </List>
+  //   </Box>
+  // );
   return (
     <div className="body-container">
-      <Button onClick={toggleDrawer("left", true)}>
+      {/* <Button onClick={toggleDrawer("left", true)}>
         <MenuIcon />
       </Button>
       <SwipeableDrawer
@@ -116,24 +116,24 @@ const AdminBody = () => {
         onOpen={toggleDrawer("left", true)}
       >
         {list("left")}
-      </SwipeableDrawer>
+      </SwipeableDrawer> */}
 
 
       <div className="image-container">
         <img src={homePageTop} alt="Home" className="image-darken" />
 
-        <AdminHeader />
+        {/* <AdminHeader /> */}
 
         <Grid
           className="centered-grid"
           container
-          spacing={2}
+          // spacing={2}
           direction="row"
           sx={{
             fontSize: { xs: "2vw", md: "3vw" },
             justifyContent: "space-evenly",
-            padding: "40px",
-            paddingTop: "5px",
+            // padding: "40px",
+            // paddingTop: "5px",
           }}
         >
           {management.map((item, index) => (

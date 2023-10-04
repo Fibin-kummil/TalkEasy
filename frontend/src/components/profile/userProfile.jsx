@@ -26,16 +26,18 @@ import { profileUpdate } from "../../utils/api";
 const UserProfile = () => {
 
   const [open, setOpen] = useState(false);
-
+  const data = useSelector(store=>store?.user?.userData)
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
 };
-let data = JSON.parse(localStorage.getItem("store"))?.user?.userData;
+// let data = JSON.parse(localStorage.getItem("store"))?.user?.userData;
  console.log("iiujhb",data);
+
 const [userData, setUserData] = useState(data)
+
 const handleChange = (event) => {
   const { name, value } = event.target;
   setUserData((prevUserData) => ({
@@ -44,10 +46,11 @@ const handleChange = (event) => {
    }))
 }
 
+  
   const submit = (e) =>{
     e.preventDefault()
     profileUpdate(userData)
-    .then(res=>setUserData(res.data))
+    .then(res=>setUserData(res.data.data))
     setOpen(false);
   }
    

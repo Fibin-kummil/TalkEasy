@@ -8,39 +8,47 @@ import Card from "@mui/material/Card";
 import StarIcon from "@mui/icons-material/Star";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { ListTrainers } from "../../utils/api";
+import { ListTrainers, SearchTrainer } from "../../utils/api";
 import SearchIcon from '@mui/icons-material/Search';
 
 
 const TrainerList = () => {
   
   const [data, setData] = useState([])
+
   const [searchField, setSearchField] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1)
-  const [cardPerPage, setCardPerPage] = useState(7)
 
-  useEffect(() => {
-   ListTrainers().then(res=>setData(res.data.data))
-  },[])
-  console.log("tera",data);
+  const [count, setCount] = useState()
+  console.log("456",count);
+
   
+  let currentUser = JSON.parse(localStorage.getItem("store"))?.user?.userData;
+  // console.log("/sddd",currentUser.email);
+  // console.log("sjhhbdhb",data);
+
+
   const handleChange = e => {
     setSearchField(e.target.value);
   };
-
-
-
-  const handlePageChange = (event,newPage) =>{
-    setCurrentPage(newPage)
-  }
-
-  const handleCardPerChange = (event) =>{
-    setCardPerPage(+event.target.value)
-    // setCurrentPage(1)
-  }
-
   
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+
+  useEffect(() => {
+     SearchTrainer({searchField,currentPage}).then(res=>{
+       setData(res?.data?.data)
+       setCount(res.data.count)
+       setCurrentPage(prev=>Math.ceil(res?.data?.count / 3) < currentPage ? 1 : prev)
+     })
+  },[searchField,currentPage])
+
+
+
   return (
     <>
       <Header />
@@ -48,11 +56,13 @@ const TrainerList = () => {
 
       <Box display={"flex"} justifyContent={"center"} direction={"row"} >
         <TextField label="search Trainer here" onChange = {handleChange}/>
-        {/* <Button variant="contained" size="small">search</Button> */}
       </Box>
 
       <Grid container spacing={8} p={5}>
-        {data.filter((user)=>user.name.toLowerCase().includes(searchField)).slice(currentPage,cardPerPage).map((x,index) => (
+
+        {data.map((x,index) =>
+          (
+          
           <Grid item xs={12} sm={6} md={6} lg={4} key={index}>
             <Paper sx={{width:"100%"}}  >
             <Grid
@@ -73,10 +83,7 @@ const TrainerList = () => {
                         </Typography>
                       </Grid>
                       <Grid item container direction={"column"}>
-                        {/* <Grid item>
-                          <StarIcon sx={{ color: "#FFD452" }} /> 4.9 .. 1914
-                          review
-                        </Grid> */}
+                  
                         <Grid item>
                           <LocationOnIcon />
                           Tvm,Kerala,India
@@ -88,7 +95,12 @@ const TrainerList = () => {
                     </Grid>
                   </Grid>
                   <Grid item display={"flex"} alignItems={"center"}>
-                    <Avatar sx={{ width: 84, height: 84 }}>F</Avatar>
+                  <Avatar
+                       
+                        {...stringAvatar(x.name)}
+                         
+                      >
+                      </Avatar>
                   </Grid>
                 </Grid>
               </Grid>
@@ -122,19 +134,50 @@ const TrainerList = () => {
             </Grid>
             </Paper> 
           </Grid>
-        ))}
+))}
       </Grid>
 
       <Grid display={"flex"} justifyContent={"center"}>
-      <Pagination count={5} size="large" color="secondary"
-       onChange = {handlePageChange} onCardPerChange = {handleCardPerChange} 
-       page={currentPage} cardsPerPage={cardPerPage} />
+      <Pagination count={Math.ceil(count/3)} size="large" color="secondary"
+       onChange = {handlePageChange}
+       />
       </Grid >
 
-      {/* <Typography variant="h3" display={"flex"} justifyContent={"center"}>Trainer Avilable</Typography> */}
       <Footer/>
     </>
   );
 };
 
 export default TrainerList;
+
+
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = "#";
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+function stringAvatar(name) {
+  console.log(name)
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+      width: 84, height: 84,fontSize: "4rem"
+    },
+    children: `${name.split('')[0]}`,
+  };
+}

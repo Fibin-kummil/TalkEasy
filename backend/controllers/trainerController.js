@@ -58,11 +58,12 @@ export const RequestedTrainer = tryCatch(async (req, res) => {
   let RequestedTrainer;
   RequestedTrainer = await TemporaryModel.find();
   res
-    .status(200)
-    .json({
-      message: "details of user who apply for trainer",
-      data: RequestedTrainer,
-    });
+  .status(200)
+  .json({
+    message: "details of user who apply for trainer",
+    data: RequestedTrainer,
+  });
+  console.log(RequestedTrainer);
   return;
 });
 

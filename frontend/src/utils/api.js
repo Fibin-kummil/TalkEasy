@@ -17,6 +17,7 @@ export const Logout = tryCatch((data) =>Axios.post(`/logout`, data))
 export const Register = tryCatch((data) => Axios.post(`/signup`, data))
 export const profileUpdate = tryCatch((data) => Axios.post(`/profile_update`, data))
 export const storeChooseLanguage = tryCatch((data) => Axios.post(`/language_choose`, data))
+export const SearchTrainer = tryCatch((data) => Axios.post(`/search_trainer`, data))
 
 export const TrainerLogin = tryCatch((data) =>Axios.post(`/trainer/trainer_login`, data))
 export const Disagree = tryCatch((data) => Axios.post(`/trainer/cancel_requiest`,data))

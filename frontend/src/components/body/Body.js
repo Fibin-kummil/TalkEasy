@@ -1,7 +1,7 @@
 import React from "react";
 import homePageTop from "../../assets/images/homePangeTop.webp";
 import "./body.css";
-import { Paper, IconButton, Typography, Grid } from "@mui/material";
+import { Paper, IconButton, Typography, Grid, Button } from "@mui/material";
 import ReduceCapacityRoundedIcon from "@mui/icons-material/ReduceCapacityRounded";
 import Groups3RoundedIcon from "@mui/icons-material/Groups3Rounded";
 import QueryBuilderRoundedIcon from "@mui/icons-material/QueryBuilderRounded";
@@ -9,12 +9,43 @@ import Courses from "./courses";
 import Subscribe from "./Subscribe";
 import WhyTrainer from "./WhyTrainer";
 import Cards from "./card";
+import { useNavigate } from "react-router";
 
 function Body() {
+  const navigate = useNavigate()
+  
+  const onAction = () =>{
+    navigate("/study")
+  }
+
+
+
   return (
     <div className="body-container">
       <div className="image-container">
-        <img src={homePageTop} alt="Home" className="image-darken" />
+        <Grid display={"flex"} justifyContent={"center"} alignItems={"center"}>
+        {/* <img src={homePageTop} alt="Home" className="image-darken" /> */}
+        <iframe width="1370" height="515"  src="https://www.youtube.be/embed/QQgXTLutn7s?si=Hgq7HV-4joKnoEqG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share " allowfullscreen ></iframe>   
+        {/* https://youtu.be/QQgXTLutn7s?si=Hgq7HV-4joKnoEqG */}
+        </Grid>
+        <Button
+          className="overlay-button" 
+          style={{
+            position: "absolute",
+            top: "30%",
+            left: "70%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 2, // Ensure the button appears on top
+            backgroundColor: "blue",
+            border: "none",
+            fontSize: "40px",
+            color: "#CC3366",
+            cursor: "pointer",
+          }}
+          onClick={onAction}
+        >
+          Start Learning
+        </Button>
         <Paper
           className="centered-paper"
           elevation={2}

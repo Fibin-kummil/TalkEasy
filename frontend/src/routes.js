@@ -14,6 +14,8 @@ import TrainerHomeP from './screens/trainerHomeP'
 import UserProfile from './components/profile/userProfile'
 import Subscription from './components/subscription/subscription'
 import TrainerList from './components/trainerList/trainerList'
+import Study from './components/study/study'
+import About from './components/About/about'
 const Router = () => {
   return (
     <>
@@ -32,6 +34,8 @@ const Router = () => {
       <Route path='/user_profile' element={<UserProfile/>}/>
       <Route path='/subscription' element={<Subscription/>}/>
       <Route path='/trainerList' element={<TrainerList/>}/>
+      <Route path='/study' element={<Study/>}/>
+      <Route path='/about' element={<About/>}/>
       </Routes>
     </>
   )

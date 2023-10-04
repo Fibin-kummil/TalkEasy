@@ -10,20 +10,21 @@ function saveToLocalStorage(store) {
   }
 }
   
-  // function loadFromLocalStorage() {
-  //   try {
-  //     const serializedStore = window.localStorage.getItem("store");
-  //     if (serializedStore === null) return undefined;
-  //     return JSON.parse(serializedStore);
-  //   } catch (e) {
-  //     console.log(e)
-  //     return undefined;
-  //   }
-  // }
+  function loadFromLocalStorage() {
+    try {
+      const serializedStore = window.localStorage.getItem("store");
+      if (serializedStore === null) return undefined;
+      return JSON.parse(serializedStore);
+    } catch (e) {
+      console.log(e)
+      return undefined;
+    }
+  }
   
   
   export const store = configureStore({
     reducer: rootReducer,
+    preloadedState:loadFromLocalStorage()
   });
 
   store.subscribe(() => saveToLocalStorage(store.getState()));
