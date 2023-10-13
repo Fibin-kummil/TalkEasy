@@ -22,7 +22,12 @@ export const verifyToken = (req, res, next) => {
     console.log("id", user.id);
     req.id = user.id;
     req.email = user.email
-    next();
+    if ( user.role=="user") {
+      next();
+    }else{
+      res.status(400).json({message:"authentication failed"})
+    }
+   
   });
 };
 

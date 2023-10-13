@@ -7,6 +7,7 @@ import connect from './config/dbConnect.js'
 import userRouter from './routes/userRoutes.js'
 import trainerRouter from './routes/trainerRoutes.js'
 import roomRouter from './routes/roomRouter.js'
+import adminRouter from './routes/adminRoute.js'
 
 
 // dotenv.config()
@@ -21,6 +22,7 @@ app.use(cors({credentials:true,origin:"http://localhost:3000"}))
 app.use("/api",userRouter)
 app.use("/api/trainer",trainerRouter)
 app.use("/api/Room",roomRouter)
+app.use("/api/admin",adminRouter)
 
 
 const port = process.env.PORT || 6000
@@ -28,6 +30,7 @@ app.listen(port,()=>{
   connect()
   console.log(`Port running in ${port}`)
 })
+
 
 
 

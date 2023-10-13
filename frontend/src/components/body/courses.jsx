@@ -135,8 +135,8 @@ function Courses() {
   }
 
   let a = JSON.parse(localStorage.getItem("store"))?.user?.userData;
-  let email = a.email
-  console.log("gdgdg",email);
+  // let email = a.email
+  // console.log("gdgdg",email);
   
   console.log(data)
   const languagechoose = (e) =>{

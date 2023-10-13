@@ -2,6 +2,7 @@ import express from "express";
 import { uploads } from "../middleWare/multer.js";
 import {
   ApproveTrainer,
+  ChooseTrainer,
   RequestedTrainer,
   ShowTrainers,
   TrainerData,
@@ -9,6 +10,8 @@ import {
   TrainerLogout,
   cancelRequiest,
   closeNotification,
+  profileUpdate,
+  myStudents,
 } from "../controllers/trainerController.js";
 
 const trainerRouter = express.Router();
@@ -28,5 +31,8 @@ trainerRouter.post("/approve_trainer", ApproveTrainer);
 trainerRouter.post("/close", closeNotification);
 trainerRouter.post("/trainer_login", TrainerLogin);
 trainerRouter.post("/logout", TrainerLogout);
+trainerRouter.post("/profile_update", profileUpdate);
+trainerRouter.post("/choose_trainer", ChooseTrainer);
+trainerRouter.post("/students", myStudents);
 
 export default trainerRouter;

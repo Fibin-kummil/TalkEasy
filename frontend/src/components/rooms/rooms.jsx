@@ -16,6 +16,8 @@ import Typography from "@mui/material/Typography";
 import { RoomData } from "../../utils/api";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { date } from "yup";
+import { DialogContentText, DialogTitle } from "@mui/material";
 
 const top100Films = [
   "Assamese",
@@ -45,6 +47,8 @@ const top100Films = [
 
 const Rooms = ({ setdata,disable,setdisable }) => {
   const [open, setOpen] = useState(false);
+  const [trainnig,setTrainning] = useState(false)
+
 
   const navigate = useNavigate();
   const handleClickOpen = () => {
@@ -53,6 +57,7 @@ const Rooms = ({ setdata,disable,setdisable }) => {
 
   const handleClose = () => {
     setOpen(false);
+    setTrainning(false)
   };
 
   const inirialState = {
@@ -107,6 +112,21 @@ const Rooms = ({ setdata,disable,setdisable }) => {
     }
   }
 
+  const training = () => {
+    let currentTime = new Date(); // Get the current date and time
+  
+    let currentHour = currentTime.getHours(); // Get the current hour (0-23)
+  
+    if (currentHour >= 9 && currentHour < 11) {
+      // Check if the current hour is between 9 and 11
+      console.log("It's training time!");
+      
+    } else {
+      console.log("It's not training time.");
+      setTrainning(true)
+    }
+  }
+
   return (
     <>
       <Grid
@@ -125,7 +145,7 @@ const Rooms = ({ setdata,disable,setdisable }) => {
           <Button
             variant="outlined"
             size="large"
-            
+            onClick={training}
           >
             Training Room
           </Button>
@@ -235,6 +255,35 @@ const Rooms = ({ setdata,disable,setdisable }) => {
           </Grid>
         </Dialog>
       </form>
+
+
+      <Dialog
+        open={trainnig}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title"></DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <Typography variant="h6" color="primary">
+              This is not the time for trainnig.your trainning start in between 9am to 11am
+            </Typography>
+          </DialogContentText>
+        </DialogContent>
+        <Grid display={"flex"} justifyContent={"space-evenly"}>
+          <DialogActions>
+            {/* <Button onClick={block} variant="contained" color="success">
+              ok
+            </Button>
+            <Button onClick={cancel} variant="contained" color="error">
+              cancel
+            </Button> */}
+          </DialogActions>
+        </Grid>
+      </Dialog>
+    
+
     </>
   );
 };

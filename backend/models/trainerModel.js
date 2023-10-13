@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import bcrypt from 'bcryptjs'
+
 
 
 const Schema = mongoose.Schema
@@ -19,14 +21,17 @@ const trainerSchema = new Schema({
     type:String,
     required:true
   },
-  users: [
-    {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      }
-    }
-  ],
+  users:{
+    type:Array,
+  },
+  // users: [
+  //   {
+  //     user: {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: "User",
+  //     }
+  //   }
+  // ],
   adminVerified:{
     type:Boolean,
     // required:true
@@ -48,6 +53,27 @@ const trainerSchema = new Schema({
     default:"trainer",
   },
 })
+
+
+trainerSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+// Match user entered password to hashed password in database
+trainerSchema.methods.matchPasswords = async function (enteredPassword) {
+  try {
+    return await bcrypt.compare(String(enteredPassword), this.password);
+  } catch (error) {
+    throw new Error('Error comparing passwords: ' + error.message);
+  }
+};
+
+
+
 
 export default mongoose.model("Trainer",trainerSchema)
 

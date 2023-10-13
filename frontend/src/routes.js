@@ -16,17 +16,30 @@ import Subscription from './components/subscription/subscription'
 import TrainerList from './components/trainerList/trainerList'
 import Study from './components/study/study'
 import About from './components/About/about'
+import TrainerAvailable from './components/management/trainerManagement/trainerAvailable'
+import AdminPrivateRoute from './adminRoute'
+import Users from './components/management/trainerManagement/users'
+import TrainerPrivateRoute from './trainerRoute'
+import Students from './components/trainer/students'
+import Class from './components/trainer/class'
+
 const Router = () => {
   return (
     <>
       <Routes>
+
+      <Route element={<TrainerPrivateRoute />}>
+         <Route path="/trainerHome" element={<TrainerHomeP />} />
+         <Route path="/students" element={<Students />} />
+         <Route path="/Class" element={<Class />} />
+      </Route>
+
       <Route path="/" element={<Home />} />
-      <Route path="/trainerHome" element={<TrainerHomeP />} />
-      <Route path="/adminHome" element={<AdminHome />} />
       <Route path="/signUp" element={<SignUp />} />
       <Route path="/LogIn" element={<LogIn />} />
       <Route path="/trainerData" element={<TrainerJoin />} />
-      <Route path="/trainerManage" element={<TranerManage />} />
+
+
       <Route path="/courses" element={<CoursesPage/>} />
       <Route path="/contact" element={<Contact/>} />
       <Route path="/rooms" element={<RoomP/>} />
@@ -36,6 +49,15 @@ const Router = () => {
       <Route path='/trainerList' element={<TrainerList/>}/>
       <Route path='/study' element={<Study/>}/>
       <Route path='/about' element={<About/>}/>
+
+
+      <Route element={<AdminPrivateRoute />}>
+         <Route path="/adminHome" element={<AdminHome />} />
+         <Route path="/trainerAvailable" element={<TrainerAvailable />} />
+         <Route path="/trainerManage" element={<TranerManage />} />
+         <Route path="/users" element={<Users />} />
+      </Route>
+
       </Routes>
     </>
   )

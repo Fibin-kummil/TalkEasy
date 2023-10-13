@@ -6,3 +6,5 @@ export const tryCatch = (controller) => async (req, res, next) => {
     return res.status(400).json({ message: error.message });
   }
 };
+
+

@@ -8,8 +8,9 @@ import Card from "@mui/material/Card";
 import StarIcon from "@mui/icons-material/Star";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { ListTrainers, SearchTrainer } from "../../utils/api";
+import { ChooseTainer, ListTrainers, SearchTrainer } from "../../utils/api";
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from "react-router";
 
 
 const TrainerList = () => {
@@ -21,13 +22,17 @@ const TrainerList = () => {
   const [currentPage, setCurrentPage] = useState(1)
 
   const [count, setCount] = useState()
+
+  const [select,setSelect] = useState(null) 
   console.log("456",count);
+
+  const navigate = useNavigate()
 
   
   let currentUser = JSON.parse(localStorage.getItem("store"))?.user?.userData;
-  // console.log("/sddd",currentUser.email);
+  console.log("/sddd",currentUser.email);
   // console.log("sjhhbdhb",data);
-
+  
 
   const handleChange = e => {
     setSearchField(e.target.value);
@@ -46,6 +51,14 @@ const TrainerList = () => {
        setCurrentPage(prev=>Math.ceil(res?.data?.count / 3) < currentPage ? 1 : prev)
      })
   },[searchField,currentPage])
+
+  const selectTrainer = (x) =>{
+    ChooseTainer({
+      TrainerEmail:x.email
+      ,UserEmail:currentUser.email
+    })
+    .then(res=>navigate("/rooms"))
+  }
 
 
 
@@ -125,7 +138,7 @@ const TrainerList = () => {
                     </Card>
                   </Grid>
                   <Grid item display={"flex"} justifyContent={"center"}>
-                    <Button variant="contained" fullWidth>
+                    <Button variant="contained" fullWidth onClick={()=>selectTrainer(x)}>
                       Select
                     </Button>
                   </Grid>

@@ -1,9 +1,27 @@
 import React, { useEffect, useState } from "react";
 import AdminHeader from "../../admin/adminHeader";
-import { Box, Button, Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import { CardActionArea } from "@mui/material";
-import { ApproveTrainer, Disagree, RequestedTrainer } from "../../../utils/api";
+import {
+  AllUsers,
+  ApproveTrainer,
+  BlockUsers,
+  Disagree,
+  RequestedTrainer,
+} from "../../../utils/api";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { login } from "../../../slices/UserSlice";
@@ -16,24 +34,23 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
-
-
-const TrainerManage = () => {
+const Users = () => {
   const columns = [
     { id: "name", label: "Name", minWidth: 170 },
     { id: "code", label: "Email", minWidth: 100 },
-    { id: "population",label: "Phone No.",minWidth: 170,},
-    { id: "density",label: "Details",minWidth: 170,},
-
+    { id: "population", label: "Phone No.", minWidth: 170 },
+    { id: "density", label: "Details", minWidth: 170 },
   ];
 
-  // function createData(name, code, population, size) {
-  //   const density = population / size;
-  //   return { name, code, population, size, density };
-  // }
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const [Users, setUsers] = useState([]);
+  const [open, setOpen] = useState(null);
+  // const [refresh, setrefresh] = useState(false)
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [blocked, setblocked] = useState(true)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -44,38 +61,28 @@ const TrainerManage = () => {
     setPage(0);
   };
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [left, setLeft] = useState([]);
-  const [open, setOpen] = useState(null)
-  const [refresh, setrefresh] = useState(false)
-
   useEffect(() => {
-    const res = RequestedTrainer().then((res) => setLeft(res?.data?.data));
+    AllUsers().then((res) => setUsers(res?.data?.data));
+    console.log("789");
+  }, [blocked])
 
-  }, [refresh]);
+  const cancel = () => {
+    // setrefresh(prev=>!prev)
+    setOpen(false);
+  };
 
-
-const cancel =() =>{
-    Disagree(open)
-    .then(() => dispatch(login()))
-    .then(() => navigate("/trainerManage"))
-    setrefresh(prev=>!prev)
-    setOpen(false)
-  }
-
-  const agree = () =>{
-      ApproveTrainer(open)
-    .then(() => dispatch(login()))
-    .then(() => navigate("/trainerManage"))
-    setrefresh(prev=>!prev)
-    setOpen(false)
-  }
+  const block = () => {
+    BlockUsers({ email: open.email,block:!open.block });
+    setblocked(prev=>!prev)
+    // setrefresh(prev=>!prev)
+    setOpen(false);
+  };
 
   const handleClose = () => {
     setOpen(false);
   };
-
+ 
+  // console.log("ppp",open);
 
   return (
     <>
@@ -98,7 +105,7 @@ const cancel =() =>{
                   display="flex"
                   justifyContent="center"
                 >
-                  Requested Trainer
+                  Users
                 </Typography>
               </CardContent>
             </CardActionArea>
@@ -123,26 +130,31 @@ const cancel =() =>{
               </TableRow>
             </TableHead>
             <TableBody>
-              
-              {left.map((row,index) => 
-                <TableRow hover role="checkbox" key={index} >
-                  
+              {Users.map((row, index) => (
+                <TableRow hover role="checkbox" key={index}>
                   <TableCell>{row.name}</TableCell>
                   <TableCell>{row.email}</TableCell>
                   <TableCell>{row.phone}</TableCell>
                   <TableCell>
-                     <Button variant="contained" color="success"onClick={() => setOpen(row)}>view</Button>                  
+                    {row.block ? (
+                      <Button variant="contained" color="success" onClick={()=>setOpen(row)} >
+                        Unblock
+                      </Button>
+                    ) : (
+                      <Button variant="contained" color="error" onClick={()=>setOpen(row)}>
+                        Block
+                      </Button>
+                    )}
                   </TableCell>
-                 
                 </TableRow>
-              )} 
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={left.length}
+          count={Users.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -150,57 +162,33 @@ const cancel =() =>{
         />
       </Paper>
 
-
-
       <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title"></DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          <Typography variant="h6" color="primary">
-            Details
-          </Typography>
-          Name: {open?.name} <br />
-          Email: {open?.email} <br />
-          Phone: {open?.phone}
-
-          <Typography variant="h6" color="primary">
-              Languages
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title"></DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <Typography variant="h6" color="primary">
+              Do you want to block the user
             </Typography>
-            {open?.language?.join(', ')}
-          <Typography variant="h6" color="primary">
-            Certificates
-          </Typography>
-          {open?.certificate?.length && (
-              <>
-                <Stack spacing={2} direction="column" >
-                 <img
-                    src={`http://localhost:5000/uploads/${open?.certificate[0]}`}
-                    alt="cert"
-                  />
-                  <img
-                    src={`http://localhost:5000/uploads/${open?.certificate[1]}`}
-                    alt="cert"
-                  />
-                  
-                </Stack>
-              </>
-            )}
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={cancel}>Disagree</Button>
-          <Button onClick={agree} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
+        <Grid display={"flex"} justifyContent={"space-evenly"}>
+          <DialogActions>
+            <Button onClick={block} variant="contained" color="success">
+              ok
+            </Button>
+            <Button onClick={cancel} variant="contained" color="error">
+              cancel
+            </Button>
+          </DialogActions>
+        </Grid>
       </Dialog>
     </>
   );
 };
 
-export default TrainerManage;
+export default Users;

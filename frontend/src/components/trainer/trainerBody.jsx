@@ -8,7 +8,7 @@ const TrainerBody = () => {
     <Box p={"50px"} display={"flex"} justifyContent={"center"} >
       <Typography variant='h3' color={"#CC3366"} >My Students</Typography>
     </Box>
-    <Grid p={"30px"} bo >
+    <Grid p={"30px"}  >
       
     <Box
       sx={{

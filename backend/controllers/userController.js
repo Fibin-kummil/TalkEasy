@@ -43,6 +43,11 @@ export const login = tryCatch(async (req, res) => {
   if (!isPassword) {
     return res.status(400).json({ message: "Invalid password" });
   }
+  if (existingUser.block) {
+    return res.status(400).json({
+      message: "oops ! you've been temporarly blocked by the Admin",
+    });
+  }
   const payload = {
     id: existingUser._id,
     email: existingUser.email,
@@ -102,6 +107,7 @@ const sendMessage = function (mobile) {
 
 export const profileUpdate = tryCatch(async(req,res)=>{
     const {name,phone,email} = req.body
+    console.log(req.id);
     const data = await User.findByIdAndUpdate(req.id,{ $set: { name: name, phone: phone, email: email } },{ new: true });
    return res.status(200).json({data})
 })
@@ -120,7 +126,7 @@ export const searchTrainer = tryCatch(async(req,res)=>{
   console.log("ans",req.id,req.email)
   const trainer = {email:{$ne:req.email},name:{$regex: searchField, $options:"i"}} //this is for to take the data of trainer avoiding the current user and it is also doing searching
   
-
+  
   let cardPerPage = 3
   const indexOfLastCard = currentPage * cardPerPage;
   const indexOfFirstCard = indexOfLastCard - cardPerPage;

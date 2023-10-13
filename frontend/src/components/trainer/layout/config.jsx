@@ -12,7 +12,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 export const items = [
   {
     title: 'Profile',
-    path: '/adminHome',
+    path: '/trainerHome',
     icon: (
       <SvgIcon fontSize="small">
         <AccountCircleIcon />
@@ -20,8 +20,8 @@ export const items = [
     )
   },
   {
-    title: 'Users',
-    path: '/users',
+    title: 'My Students',
+    path: '/students',
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />
@@ -29,23 +29,23 @@ export const items = [
     )
   },
   {
-    title: 'Avilable Trainer',
-    path: '/trainerAvailable',
+    title: 'Class Room',
+    path: '/Class',
     icon: (
       <SvgIcon fontSize="small">
         <CoPresentRoundedIcon />
       </SvgIcon>
     )
   },
-  {
-    title: 'Requested Trainer',
-    path: '/trainerManage', 
-    icon: (
-      <SvgIcon fontSize="small">
-        <ChartBarIcon />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: 'Requested Trainer',
+  //   path: '/trainerManage', 
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <ChartBarIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   // {
   //   title: 'Manage Contents',
   //   path: '/manageContents',

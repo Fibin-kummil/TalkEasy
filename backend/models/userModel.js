@@ -37,7 +37,8 @@ const userSchema = new Schema({
       type:String,
     },
     block:{
-      type:Boolean
+      type:Boolean,
+      default: false,
     },
     notification:{
       type:Array

@@ -97,11 +97,12 @@ const LogIn = (props) => {
     
     const Submit = (e) =>{
     e.preventDefault();
+    console.log("ccc",inputs.email);
     TrainerLogin({
       email: inputs.email,
       password: inputs.password,
     })
-      .then((res) => res?.data && dispatch(login()))
+      .then((res) => res?.data && dispatch(login(res?.data)))
       .then(() => navigate("/trainerHome"))
       .catch((error) => {
         console.error("Login error:", error);
