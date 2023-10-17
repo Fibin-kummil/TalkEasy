@@ -83,7 +83,7 @@ export default function SignUp() {
         const { email, name, phone, password } = values;
         setInputs({ email, name, phone, password });
         await axios
-          .get(`http://localhost:5000/api/sendOtp?mobile=${phone}`)
+          .get(`${process.env.REACT_APP_baseURL}/sendOtp?mobile=${phone}`)
           .then((res) => setShow(res.data.otp));
       } catch (err) {
         helpers.setStatus({ success: false });
