@@ -80,8 +80,8 @@ export const logout = tryCatch((req, res) => {
 
 
 export const sendOtp = tryCatch((req, res) => {
-  // const otp = sendMessage(parseInt(req.query.mobile))
-  const otp = Math.floor(Math.random() * 9000) + 1000;
+  const otp = sendMessage(parseInt(req.query.mobile))
+  // const otp = Math.floor(Math.random() * 9000) + 1000;
   console.log(otp);
   return res.status(200).json({ otp });
 });

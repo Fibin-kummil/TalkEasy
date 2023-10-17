@@ -28,7 +28,7 @@ function Body() {
         <iframe width="1370" height="515"  src="https://www.youtube.be/embed/QQgXTLutn7s?si=Hgq7HV-4joKnoEqG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share " allowfullscreen ></iframe>   
         {/* https://youtu.be/QQgXTLutn7s?si=Hgq7HV-4joKnoEqG */}
         </Grid>
-        <Button
+        {/* <Button
           className="overlay-button" 
           style={{
             position: "absolute",
@@ -40,12 +40,12 @@ function Body() {
             border: "none",
             fontSize: "40px",
             color: "#CC3366",
-            cursor: "pointer",
+            cursor: "pointer", 
           }}
           onClick={onAction}
         >
           Start Learning
-        </Button>
+        </Button> */}
         <Paper
           className="centered-paper"
           elevation={2}

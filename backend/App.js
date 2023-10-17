@@ -18,7 +18,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static("./public"))
 
-app.use(cors({credentials:true,origin:"http://localhost:3000"}))
+app.use(cors({credentials:true,origin:process.env.CLIENT_API}))
 app.use("/api",userRouter)
 app.use("/api/trainer",trainerRouter)
 app.use("/api/Room",roomRouter)
