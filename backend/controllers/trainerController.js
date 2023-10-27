@@ -79,7 +79,7 @@ export const cancelRequiest = tryCatch(async (req, res) => {
       },
     }
   );
-  // console.log("a",b)
+  return res.status(200)
 });
 
 export const ApproveTrainer = tryCatch(async (req, res) => {

@@ -4,6 +4,7 @@ import Footer from '../components/footer/Footer.js'
 import Body from "../components/body/Body.js";
 
 const Home = () => {
+  
   return (
     <>
     <Header/>

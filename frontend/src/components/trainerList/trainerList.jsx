@@ -12,7 +12,7 @@ import { ChooseTainer, ListTrainers, SearchTrainer } from "../../utils/api";
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from "react-router";
 
-
+  
 const TrainerList = () => {
   
   const [data, setData] = useState([])
@@ -43,9 +43,9 @@ const TrainerList = () => {
     setCurrentPage(value);
   };
 
-
+   
   useEffect(() => {
-     SearchTrainer({searchField,currentPage}).then(res=>{
+     SearchTrainer({searchField,currentPage,UserEmail:currentUser.email}).then(res=>{
        setData(res?.data?.data)
        setCount(res.data.count)
        setCurrentPage(prev=>Math.ceil(res?.data?.count / 3) < currentPage ? 1 : prev)

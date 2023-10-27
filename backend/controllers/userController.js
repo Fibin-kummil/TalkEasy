@@ -122,9 +122,10 @@ export const chooseLanguage = tryCatch(async(req,res)=>{
 
 export const searchTrainer = tryCatch(async(req,res)=>{
   // const search = req.body.searchField
-  const {searchField,currentPage} = req.body
-  console.log("ans",req.id,req.email)
-  const trainer = {email:{$ne:req.email},name:{$regex: searchField, $options:"i"}} //this is for to take the data of trainer avoiding the current user and it is also doing searching
+  const {searchField,currentPage,UserEmail} = req.body
+  // console.log("anss",UserEmail);
+  // console.log("ans",req.id,req.email)
+  const trainer = {email:{$ne:UserEmail},name:{$regex: searchField, $options:"i"}} //this is for to take the data of trainer avoiding the current user and it is also doing searching
   
   
   let cardPerPage = 3

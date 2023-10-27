@@ -129,9 +129,9 @@ const TrainerAvailable = () => {
                   <TableCell>{row.email}</TableCell>
                   <TableCell>{row.phone}</TableCell>
                   <TableCell><Button variant="contained"onClick={() => setOpen(row)}>view</Button></TableCell>
-                  <TableCell><Button variant="contained"color="error"onClick={() => setopenDelect(row)}>Delect</Button></TableCell>
+                  <TableCell><Button variant="contained"color="error"onClick={() => setopenDelect(row)}>Delete</Button></TableCell>
                   <TableCell>
-                     {/* <Button variant="contained" color="success"onClick={() => setOpen(row)}>view</Button>                   */}
+                     {/* <Button variant="contained" color="success"onClick={() => setOpen(row)}>view</Button>*/}
                   </TableCell>
                  
                 </TableRow>
@@ -176,17 +176,17 @@ const TrainerAvailable = () => {
           </Typography>
           {open?.certificate?.length && (
               <>
-                <Stack spacing={2} direction="column" >
+                {/* <Stack spacing={2} direction="column" >
                  <img
-                    src={`http://localhost:5000/uploads/${open?.certificate[0]}`}
+                    src={`${process.env.REACT_APP_imageURL}/uploads/${open?.certificate[0]}`}
                     alt="cert"
                   />
                   <img
-                    src={`http://localhost:5000/uploads/${open?.certificate[1]}`}
+                    src={`${process.env.REACT_APP_imageURL}/uploads/${open?.certificate[1]}`}
                     alt="cert"
                   />
                   
-                </Stack>
+                </Stack> */}
               </>
             )}
           </DialogContentText>

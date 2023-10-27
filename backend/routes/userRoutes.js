@@ -10,7 +10,7 @@ userRouter.post('/logout',logout)
 userRouter.get('/sendOtp',sendOtp)
 userRouter.post('/profile_update',verifyToken,profileUpdate)
 userRouter.post('/language_choose',chooseLanguage)
-userRouter.post('/search_trainer',verifyToken,searchTrainer)
+userRouter.post('/search_trainer',searchTrainer)
  
 export default userRouter
 

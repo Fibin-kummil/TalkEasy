@@ -12,6 +12,10 @@ const userSlice = createSlice({
       // localStorage.setItem("user_id",JSON.stringify(action.payload))
       
     },
+    // socket:(state,action)=>{
+    //        state.socket = action.payload
+
+    // },
     userData: (state,action)=>{
       state.userData = action.payload
     },

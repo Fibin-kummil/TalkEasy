@@ -9,11 +9,12 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { myStudent } from '../../utils/api';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 const Class = () => {
 
   const [Student, setStudent] = useState([]);
-
+  const navigate = useNavigate()
 
   let TrainerEmail = useSelector((data) => data.user.userData.user);
   console.log(TrainerEmail.email);
@@ -48,7 +49,7 @@ const Class = () => {
       </ListItem>
       <Divider variant="inset" component="li" />
       <Grid display={"flex"} justifyContent={"center"}>
-      <Button sx={{backgroundColor:"red", color:"black"}}  >Start Class</Button>
+      <Button sx={{backgroundColor:"red", color:"black"}} onClick={() => navigate(`/joinMeeting?roomID=${TrainerEmail._id}`)} >Start Class</Button>
       </Grid>
       </List>
     </>
@@ -56,3 +57,4 @@ const Class = () => {
 }
 
 export default Class
+

@@ -47,6 +47,7 @@ const Cards = () => {
               Do you want to become a Trainer?
             </Typography>
           </Box>
+          // ''
         ) : (
           ""
         )}

@@ -36,6 +36,7 @@ const UserProfile = () => {
 // let data = JSON.parse(localStorage.getItem("store"))?.user?.userData;
  console.log("iiujhb",data);
 
+
 const [userData, setUserData] = useState(data)
 
 const handleChange = (event) => {
