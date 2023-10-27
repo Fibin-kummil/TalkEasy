@@ -9,7 +9,7 @@ const Otp = ({ otp, dispatch, phone ,setOtp}) => {
   const [timer, setTimer] = useState(0)
   async function Timer() {
     await axios
-      .get(`http://localhost:5000/api/sendOtp?mobile=${phone}`)
+      .get(`${process.env.REACT_APP_baseURL}/sendOtp?mobile=${phone}`)
       .then((res) => setOtp(res.data.otp));
     setTimer(10);
     var newtimer = setInterval(() => {
