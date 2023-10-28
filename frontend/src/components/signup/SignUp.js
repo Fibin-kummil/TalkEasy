@@ -29,9 +29,9 @@ export default function SignUp() {
   const [enterOtp, setenterOtp] = useState();
   const [inputs, setInputs] = useState();
 
-  function handleCallbackResponse(response) {
-    console.log("Encoded JWT ID token: " + response.credential);
-  }
+  // function handleCallbackResponse(response) {
+  //   console.log("Encoded JWT ID token: " + response.credential);
+  // }
   // useEffect(() => {
   //   /* global google */
   //   google.accounts.id.initialize({
