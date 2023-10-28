@@ -80,6 +80,7 @@ export default function SignUp() {
     }),
     onSubmit: async (values, helpers) => {
       try {
+        console.log('otp fibin')
         const { email, name, phone, password } = values;
         setInputs({ email, name, phone, password });
         await axios

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 const Otp = ({ otp, dispatch, phone ,setOtp}) => {
   const [timer, setTimer] = useState(0)
   async function Timer() {
+    console.log("fibin nu")
     await axios
       .get(`${process.env.REACT_APP_baseURL}/sendOtp?mobile=${phone}`)
       .then((res) => setOtp(res.data.otp));
@@ -22,9 +23,9 @@ const Otp = ({ otp, dispatch, phone ,setOtp}) => {
       });
     }, 1000);
   }
-useEffect(() => {
-  Timer()
-}, [])
+// useEffect(() => {
+//   Timer()
+// }, [])
 
   return (
     <>
