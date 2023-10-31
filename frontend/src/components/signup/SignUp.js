@@ -17,8 +17,9 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../slices/UserSlice";
 import { useDispatch } from "react-redux";
 import Otp from "./Otp";
-import { Register } from "../../utils/api";
+import { Gsignup, Register } from "../../utils/api";
 import { Alert, Stack } from "@mui/material";
+import { GoogleLogin } from "@react-oauth/google";
 
 const defaultTheme = createTheme();
 
@@ -54,7 +55,7 @@ export default function SignUp() {
         .then(() => navigate("/"))
         .catch((err) => console.log(err.message));
     }
-  }, [enterOtp])
+  }, [enterOtp]);
 
   const formik = useFormik({
     initialValues: {
@@ -80,7 +81,7 @@ export default function SignUp() {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        console.log('otp fibin')
+        console.log("otp fibin");
         const { email, name, phone, password } = values;
         setInputs({ email, name, phone, password });
         await axios
@@ -187,6 +188,21 @@ export default function SignUp() {
                 >
                   <div id="signInDiv"></div>
                 </Box>
+
+                <div className="App">
+                  <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      // console.log(credentialResponse);
+                      Gsignup(credentialResponse)
+                      .then((res) => dispatch(login(res.data.user)))
+                      .then(() => navigate("/"))
+                    }}
+                    onError={() => {
+                      console.log("Login Failed");
+                    }}
+                  />
+                </div>
+
                 <Alert color="primary" severity="info" sx={{ mt: 3 }}>
                   <div>
                     *By confirming otp will be sent to your provided phone

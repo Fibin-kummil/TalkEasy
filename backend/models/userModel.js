@@ -17,11 +17,11 @@ const userSchema = new Schema({
     },
     phone:{
       type:Number,
-      required:true,
+      // required:true,
     },
     password:{
         type:String,
-        required:true,
+        // required:true,
         minlength:3 
     },
     profilePic:{

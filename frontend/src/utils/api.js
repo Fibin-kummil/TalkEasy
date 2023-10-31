@@ -33,6 +33,7 @@ Axios.interceptors.response.use(function (response) {
 export const Login = (data) =>Axios.post(`/login`, data )
 export const Logout = (data) =>Axios.post(`/logout`, data) 
 export const Register = (data) => Axios.post(`/signup`, data) 
+export const Gsignup = (data) => Axios.post(`/g_signup`, data) 
 export const profileUpdate = (data) => Axios.post(`/profile_update`, data)  
 export const storeChooseLanguage = (data) => Axios.post(`/language_choose`, data) 
 export const SearchTrainer = (data) => Axios.post(`/search_trainer`, data)   

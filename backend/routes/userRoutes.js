@@ -1,6 +1,6 @@
 import express from "express"
 import { verifyToken } from "../middleWare/userMiddleware.js"
-import {signup,login,logout, sendOtp, profileUpdate, chooseLanguage, searchTrainer} from "../controllers/userController.js"
+import {signup,login,logout, sendOtp, profileUpdate, chooseLanguage, searchTrainer, googleSignUp} from "../controllers/userController.js"
 
 const userRouter = express.Router()
 
@@ -11,6 +11,7 @@ userRouter.get('/sendOtp',sendOtp)
 userRouter.post('/profile_update',verifyToken,profileUpdate)
 userRouter.post('/language_choose',chooseLanguage)
 userRouter.post('/search_trainer',searchTrainer)
+userRouter.post('/g_signup',googleSignUp)
  
 export default userRouter
 

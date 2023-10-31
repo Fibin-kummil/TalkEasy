@@ -4,6 +4,7 @@ import TrainerModel from "../models/trainerModel.js";
 import fast2sms from "fast-two-sms";
 import { tryCatch } from "../utils/tryCatch.js";
 import "dotenv/config";
+import {OAuth2Client} from 'google-auth-library'
 
 export const signup = tryCatch(async (req, res) => {
   const { name, email, password, phone } = req.body;
@@ -28,6 +29,51 @@ export const signup = tryCatch(async (req, res) => {
     .status(201)
     .json({ message: "Successfully registered", user: user, token });
 })
+
+export const googleSignUp = tryCatch(async(req,res)=>{
+  // console.log("kk",req.body);
+    const{credential,client_id}=req.body
+    const client = new OAuth2Client(client_id);
+    // Call the verifyIdToken to
+    // varify and decode it
+    const ticket = await client.verifyIdToken({
+        idToken: credential,
+        audience: client_id,
+    });
+    // Get the JSON with all the user info
+    const payload = ticket.getPayload();
+    console.log(payload.email);
+    // This is a JSON object that contains
+    // all the user info
+    // return payload;
+    const email = payload.email
+    const name = payload.name
+
+    let existingUser = await User.findOne({ email: email });
+  let existingTrainer = await TrainerModel.findOne({ email: email });
+  if (existingUser || existingTrainer ) {
+    res.status(400).json({ message: "User already exist" });
+  }
+  const user = new User({ name, email });
+  await user.save();
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: "1d",
+  });
+  console.log("token send", token);
+   res
+    .cookie("token", token, {
+      path: "/",
+      expires: new Date(Date.now() + 1000 * 60 * 60), // 1 hour expiration
+      httpOnly: true,
+      sameSite: "lax",
+    })
+    .status(201)
+    .json({ message: "Successfully registered", user: user, token });
+
+    
+    
+})
+
 
 
 export const login = tryCatch(async (req, res) => {
