@@ -32,7 +32,10 @@ import { useNavigate } from "react-router-dom";
 // import { toast } from "react-toastify";
 import { login } from "../../slices/UserSlice";
 // import { notify } from "../../utils/notification";
-import { Login, TrainerLogin } from "../../utils/api";
+import { Glogin, Login, TrainerLogin } from "../../utils/api";
+import { GoogleLogin } from "@react-oauth/google";
+
+
 
 const style = {
   position: "absolute",
@@ -243,6 +246,21 @@ const LogIn = (props) => {
                   Trainer LOG In
                 </Button>
                  }
+
+                 <div className="App">
+                  <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      // console.log(credentialResponse);
+                      Glogin(credentialResponse)
+                      .then((res) => dispatch(login(res.data.user)))
+                      .then(() => navigate("/"))
+                    }}
+                    onError={() => {
+                      console.log("Login Failed");
+                    }}
+                  />
+                </div>
+
                 <Grid
                   pt={2}
                   sx={{

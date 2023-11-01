@@ -4,6 +4,7 @@ import { ReactNotifications } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import TrainerHomeP from "./screens/trainerHomeP";
 import { useDispatch } from "react-redux";
+import './App.css'
 // import { io } from "socket.io-client";
 // import { socket } from "./slices/UserSlice";
 

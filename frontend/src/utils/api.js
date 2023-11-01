@@ -31,6 +31,7 @@ Axios.interceptors.response.use(function (response) {
 
 
 export const Login = (data) =>Axios.post(`/login`, data )
+export const Glogin = (data) =>Axios.post(`/g_login`, data )
 export const Logout = (data) =>Axios.post(`/logout`, data) 
 export const Register = (data) => Axios.post(`/signup`, data) 
 export const Gsignup = (data) => Axios.post(`/g_signup`, data) 
