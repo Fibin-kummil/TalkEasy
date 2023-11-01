@@ -31,9 +31,9 @@ const Cards = () => {
         justifyContent="center"
         paddingBottom="20px"
       >
-        <Box paddingTop="30px" paddingLeft="10px">
+        {/* <Box paddingTop="30px" paddingLeft="10px">
           <img src={HomeBottam} alt="HomeBottam" />
-        </Box>
+        </Box> */}
         {store.isLoggedIn ? (
           <Box>
             <Typography

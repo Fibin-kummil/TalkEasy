@@ -10,6 +10,7 @@ import Subscribe from "./Subscribe";
 import WhyTrainer from "./WhyTrainer";
 import Cards from "./card";
 import { useNavigate } from "react-router";
+import Award from "./Carroussel/award";
 
 function Body() {
   const navigate = useNavigate()
@@ -115,6 +116,10 @@ function Body() {
       <Courses />
       <Subscribe />
       <WhyTrainer />
+
+      <Award/>
+
+
       <Cards />
     </div>
   );
