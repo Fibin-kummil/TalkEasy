@@ -33,7 +33,9 @@ app.listen(port,()=>{
   console.log(`Port running in ${port}`)
 })
 
-
+app.get("/", (req, res) => {
+  res.json("server started");
+});
 
 // const port = process.env.PORT || 6000
 // const server = app.listen(port,()=>{
